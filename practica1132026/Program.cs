@@ -51,13 +51,63 @@ class EjemploClase
             {
                 Console.WriteLine("Usuario y contraseña incorrecta");
             }
-            intentos++;
+            Console.WriteLine("Bienvenido" + alumno);
+            Console.WriteLine("1. Ver notas ");
+            Console.WriteLine("2. Salir ");
+            Console.WriteLine("Ingrese una opción ");
+            opcion = int.Parse(Console.ReadLine());
+            switch (opcion)
+            {
+
+                case 1:
+                    Console.WriteLine("Nota del periodo1: " + nota1);
+                    Console.WriteLine("Nota del periodo2: " + nota2);
+                    Console.WriteLine("Nota del periodo3: " + nota3);
+                    Console.WriteLine("promedio del periodo " + promedio);
+                    break;
+
+                case 2:
+                    Console.WriteLine("Gracias por usar el programa");
+                    break;
+
+
+
+
+            }
+
+
+
+        }
+        if (alumno != usuario_alu && contrasenaAlumno == contraalumno)
+        {
+
+            Console.WriteLine("Usuario incorrecto");
+
+        }
+        if (alumno == usuario_alu && contrasenaAlumno != contraalumno)
+        {
+            Console.WriteLine("Contraseña incorrecta");
+        }
+        if (alumno != usuario_alu && contrasenaAlumno != contraalumno)
+        {
+            Console.WriteLine("Usuario y contraseña incorrectos");
+        }
+
+        intentos++;
+
+
         }
       
         if (intentos == 3)
         {
             Console.WriteLine("Cuenta bloqueada");
         }
+
+        
+
+        
+
+          
     }
 }
         

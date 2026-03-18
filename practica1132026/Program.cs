@@ -6,6 +6,7 @@ class EjemploClase
     {
         string user = "javier.garcia@catolica.edu.sv";
         string contrasena = "javier";
+ 
 
         string[] alumnos = new string[100];
         string[] contras = new string[100];
@@ -13,7 +14,7 @@ class EjemploClase
 
         int totalAlumnos = 1;
 
-        // Alumno inicial
+        
         alumnos[0] = "2025GJ601";
         contras[0] = "1234";
         promedios[0] = 0;
@@ -28,7 +29,7 @@ class EjemploClase
 
             opcion = int.Parse(Console.ReadLine());
 
-            // ================= DOCENTE =================
+            
             if (opcion == 1)
             {
                 Console.Write("Usuario: ");

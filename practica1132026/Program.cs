@@ -1,127 +1,242 @@
-﻿using System.Net.Mail;
+﻿using System;
 
 class EjemploClase
 {
     public static void Main(string[] args)
     {
-        double nota1 = 0, nota2 = 0, nota3 = 0, promedio = 0;
-        string usuario, password, usuario_alu, contraalumno;
-        int op, intentos, opcion2, opcion;
-
         string user = "javier.garcia@catolica.edu.sv";
         string contrasena = "javier";
 
-        string alumno = "2025GJ601";
-        string contraseñaAlumno = "1234";
-        opcion2 = 0;
-        intentos = 0;
-        while (opcion2 != 3)
+        string[] alumnos = new string[100];
+        string[] contras = new string[100];
+        double[] promedios = new double[100];
+
+        int totalAlumnos = 1;
+
+        // Alumno inicial
+        alumnos[0] = "2025GJ601";
+        contras[0] = "1234";
+        promedios[0] = 0;
+
+        int opcion = 0;
+
+        while (opcion != 3)
         {
-            Console.WriteLine("Bienvenido al sistema de notas");
-            Console.WriteLine("Ingresa una opción");
-            Console.WriteLine("1. Docente");
+            Console.WriteLine("\n1. Docente");
             Console.WriteLine("2. Alumno");
             Console.WriteLine("3. Salir");
 
-            opcion2 = int.Parse(Console.ReadLine());
+            opcion = int.Parse(Console.ReadLine());
 
-            if (opcion2 == 1)
+            // ================= DOCENTE =================
+            if (opcion == 1)
             {
-                Console.WriteLine("Perfil de docente");
+                Console.Write("Usuario: ");
+                string usuarioDoc = Console.ReadLine();
 
-                while (intentos < 3)
+                Console.Write("Contraseña: ");
+                string passDoc = Console.ReadLine();
+
+                if (usuarioDoc == user && passDoc == contrasena)
                 {
-                    Console.WriteLine("Usuario:");
-                    usuario = Console.ReadLine();
+                    Console.WriteLine("Acceso correcto");
 
-                    Console.WriteLine("Contraseña:");
-                    password = Console.ReadLine();
+                    int opDoc = 0;
 
-                    if (usuario == user && password == contrasena)
+                    while (opDoc != 6)
                     {
-                        Console.WriteLine("Acceso correcto");
+                        Console.WriteLine("\n--- MENÚ DOCENTE ---");
+                        Console.WriteLine("1. Agregar alumno");
+                        Console.WriteLine("2. Eliminar alumno");
+                        Console.WriteLine("3. Editar alumno");
+                        Console.WriteLine("4. Ingresar notas");
+                        Console.WriteLine("5. Ver lista de alumnos");
+                        Console.WriteLine("6. Salir");
 
-                        Console.WriteLine("1. Notas");
-                        Console.WriteLine("2. Salir");
+                        opDoc = int.Parse(Console.ReadLine());
 
-                        Console.WriteLine("Ingresar una opción");
-                        op = int.Parse(Console.ReadLine());
-
-                        if (op == 1)
+                        
+                        if (opDoc == 1)
                         {
-                            Console.WriteLine("Ingresar notas del período 1");
+                            Console.Write("Nuevo usuario: ");
+                            string nuevoUsuario = Console.ReadLine();
 
-                            Console.WriteLine("Ingresar la nota de Actividad 1:");
-                            nota1 = double.Parse(Console.ReadLine());
+                            
+                            bool existe = false;
+                            for (int i = 0; i < totalAlumnos; i++)
+                            {
+                                if (alumnos[i] == nuevoUsuario)
+                                {
+                                    existe = true;
+                                    break;
+                                }
+                            }
 
-                            Console.WriteLine("Ingresar la nota de Actividad 2:");
-                            nota2 = double.Parse(Console.ReadLine());
+                            if (existe)
+                            {
+                                Console.WriteLine("El alumno ya existe.");
+                            }
+                            else
+                            {
+                                Console.Write("Contraseña: ");
+                                string nuevaContra = Console.ReadLine();
 
-                            Console.WriteLine("Ingresar la nota del Parcial:");
-                            nota3 = double.Parse(Console.ReadLine());
+                                alumnos[totalAlumnos] = nuevoUsuario;
+                                contras[totalAlumnos] = nuevaContra;
+                                promedios[totalAlumnos] = 0;
 
-                            promedio = (nota1 * .25) + (nota2 * .25) + (nota3 * .5);
-
-                            Console.WriteLine("Nota Primer Período: " + promedio);
+                                totalAlumnos++;
+                                Console.WriteLine("Alumno agregado.");
+                            }
                         }
-                        else
+
+                     
+                        else if (opDoc == 2)
                         {
-                            Console.WriteLine("Saliendo...");
-                            break;
+                            Console.Write("Usuario a eliminar: ");
+                            string eliminar = Console.ReadLine();
+
+                            bool encontrado = false;
+
+                            for (int i = 0; i < totalAlumnos; i++)
+                            {
+                                if (alumnos[i] == eliminar)
+                                {
+                                    for (int j = i; j < totalAlumnos - 1; j++)
+                                    {
+                                        alumnos[j] = alumnos[j + 1];
+                                        contras[j] = contras[j + 1];
+                                        promedios[j] = promedios[j + 1];
+                                    }
+
+                                    totalAlumnos--;
+                                    encontrado = true;
+                                    Console.WriteLine("Alumno eliminado.");
+                                    break;
+                                }
+                            }
+
+                            if (!encontrado)
+                            {
+                                Console.WriteLine("Alumno no encontrado.");
+                            }
                         }
 
-                        break;
+                        else if (opDoc == 3)
+                        {
+                            Console.Write("Usuario a editar: ");
+                            string buscar = Console.ReadLine();
+
+                            bool encontrado = false;
+
+                            for (int i = 0; i < totalAlumnos; i++)
+                            {
+                                if (alumnos[i] == buscar)
+                                {
+                                    Console.Write("Nuevo usuario: ");
+                                    alumnos[i] = Console.ReadLine();
+
+                                    Console.Write("Nueva contraseña: ");
+                                    contras[i] = Console.ReadLine();
+
+                                    Console.WriteLine("Alumno actualizado.");
+                                    encontrado = true;
+                                    break;
+                                }
+                            }
+
+                            if (!encontrado)
+                            {
+                                Console.WriteLine("Alumno no encontrado.");
+                            }
+                        }
+
+               
+                        else if (opDoc == 4)
+                        {
+                            Console.Write("Usuario: ");
+                            string buscar = Console.ReadLine();
+
+                            bool encontrado = false;
+
+                            for (int i = 0; i < totalAlumnos; i++)
+                            {
+                                if (alumnos[i] == buscar)
+                                {
+                                    Console.Write("Nota 1: ");
+                                    double n1 = double.Parse(Console.ReadLine());
+
+                                    Console.Write("Nota 2: ");
+                                    double n2 = double.Parse(Console.ReadLine());
+
+                                    Console.Write("Parcial: ");
+                                    double n3 = double.Parse(Console.ReadLine());
+
+                                    promedios[i] = (n1 * 0.25) + (n2 * 0.25) + (n3 * 0.5);
+
+                                    Console.WriteLine("Promedio guardado.");
+                                    encontrado = true;
+                                    break;
+                                }
+                            }
+
+                            if (!encontrado)
+                            {
+                                Console.WriteLine("Alumno no encontrado.");
+                            }
+                        }
+
+                        
+                        else if (opDoc == 5)
+                        {
+                            Console.WriteLine("\n--- LISTA DE ALUMNOS ---");
+
+                            if (totalAlumnos == 0)
+                            {
+                                Console.WriteLine("No hay alumnos.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < totalAlumnos; i++)
+                                {
+                                    Console.WriteLine((i + 1) + ". " + alumnos[i] + " | Promedio: " + promedios[i]);
+                                }
+                            }
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Usuario y contraseña incorrecta");
-                        intentos++;
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("Credenciales incorrectas.");
                 }
             }
-            else if (opcion2 == 2)
+
+            
+            else if (opcion == 2)
             {
-                Console.WriteLine("Perfil de alumno");
+                Console.Write("Usuario: ");
+                string usuarioAlu = Console.ReadLine();
 
-                intentos = 0;
+                Console.Write("Contraseña: ");
+                string passAlu = Console.ReadLine();
 
-                while (intentos < 3)
+                bool acceso = false;
+
+                for (int i = 0; i < totalAlumnos; i++)
                 {
-                    Console.WriteLine("Ingrese su usuario");
-                    usuario_alu = Console.ReadLine();
-
-                    Console.WriteLine("Ingrese su contraseña");
-                    contraalumno = Console.ReadLine();
-
-                    if (usuario_alu == alumno && contraalumno == contraseñaAlumno)
+                    if (alumnos[i] == usuarioAlu && contras[i] == passAlu)
                     {
-                        Console.WriteLine("Acceso correcto");
-
-                        Console.WriteLine("1. Ver notas");
-                        Console.WriteLine("2. Salir");
-
-                        opcion = int.Parse(Console.ReadLine());
-
-                        if (opcion == 1)
-                        {
-                            Console.WriteLine("Notas del alumno " + alumno);
-                            Console.WriteLine("Nota Primer Período: " + promedio);
-                        }
-                        else if (opcion == 2)
-                        {
-                            Console.WriteLine("Saliendo...");
-                            break;
-                        }
-
+                        Console.WriteLine("Bienvenido " + alumnos[i]);
+                        Console.WriteLine("Promedio: " + promedios[i]);
+                        acceso = true;
                         break;
                     }
-                    else
-                    {
-                        Console.WriteLine("Usuario y contraseña incorrecta");
-                        intentos++;
-                    }
                 }
-                Console.WriteLine("Saliendo...");
+
+                if (!acceso)
+                {
+                    Console.WriteLine("Credenciales incorrectas.");
+                }
             }
         }
     }

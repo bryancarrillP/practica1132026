@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 class EjemploClase
 {
@@ -6,18 +7,14 @@ class EjemploClase
     {
         string user = "javier.garcia@catolica.edu.sv";
         string contrasena = "javier";
- 
 
-        string[] alumnos = new string[100];
-        string[] contras = new string[100];
-        double[] promedios = new double[100];
+        ArrayList alumnos = new ArrayList();
+        ArrayList contras = new ArrayList();
+        ArrayList promedios = new ArrayList();
 
-        int totalAlumnos = 1;
-
-        
-        alumnos[0] = "2025GJ601";
-        contras[0] = "1234";
-        promedios[0] = 0;
+        alumnos.Add("2025GJ601");
+        contras.Add("1234");
+        promedios.Add(0.0);
 
         int opcion = 0;
 
@@ -29,7 +26,6 @@ class EjemploClase
 
             opcion = int.Parse(Console.ReadLine());
 
-            
             if (opcion == 1)
             {
                 Console.Write("Usuario: ");
@@ -40,14 +36,11 @@ class EjemploClase
 
                 if (usuarioDoc == user && passDoc == contrasena)
                 {
-                    Console.WriteLine("Acceso correcto");
-
                     int opDoc = 0;
 
                     while (opDoc != 6)
                     {
-                        Console.WriteLine("\n--- MENÚ DOCENTE ---");
-                        Console.WriteLine("1. Agregar alumno");
+                        Console.WriteLine("\n1. Agregar alumno");
                         Console.WriteLine("2. Eliminar alumno");
                         Console.WriteLine("3. Editar alumno");
                         Console.WriteLine("4. Ingresar notas");
@@ -56,42 +49,35 @@ class EjemploClase
 
                         opDoc = int.Parse(Console.ReadLine());
 
-                        
                         if (opDoc == 1)
                         {
                             Console.Write("Nuevo usuario: ");
-                            string nuevoUsuario = Console.ReadLine();
+                            string nuevo = Console.ReadLine();
 
-                            
                             bool existe = false;
-                            for (int i = 0; i < totalAlumnos; i++)
+                            for (int i = 0; i < alumnos.Count; i++)
                             {
-                                if (alumnos[i] == nuevoUsuario)
+                                if (alumnos[i].ToString() == nuevo)
                                 {
                                     existe = true;
                                     break;
                                 }
                             }
 
-                            if (existe)
+                            if (!existe)
                             {
-                                Console.WriteLine("El alumno ya existe.");
+                                Console.Write("Contraseña: ");
+                                string contra = Console.ReadLine();
+
+                                alumnos.Add(nuevo);
+                                contras.Add(contra);
+                                promedios.Add(0.0);
                             }
                             else
                             {
-                                Console.Write("Contraseña: ");
-                                string nuevaContra = Console.ReadLine();
-
-                                alumnos[totalAlumnos] = nuevoUsuario;
-                                contras[totalAlumnos] = nuevaContra;
-                                promedios[totalAlumnos] = 0;
-
-                                totalAlumnos++;
-                                Console.WriteLine("Alumno agregado.");
+                                Console.WriteLine("El alumno ya existe.");
                             }
                         }
-
-                     
                         else if (opDoc == 2)
                         {
                             Console.Write("Usuario a eliminar: ");
@@ -99,20 +85,14 @@ class EjemploClase
 
                             bool encontrado = false;
 
-                            for (int i = 0; i < totalAlumnos; i++)
+                            for (int i = 0; i < alumnos.Count; i++)
                             {
-                                if (alumnos[i] == eliminar)
+                                if (alumnos[i].ToString() == eliminar)
                                 {
-                                    for (int j = i; j < totalAlumnos - 1; j++)
-                                    {
-                                        alumnos[j] = alumnos[j + 1];
-                                        contras[j] = contras[j + 1];
-                                        promedios[j] = promedios[j + 1];
-                                    }
-
-                                    totalAlumnos--;
+                                    alumnos.RemoveAt(i);
+                                    contras.RemoveAt(i);
+                                    promedios.RemoveAt(i);
                                     encontrado = true;
-                                    Console.WriteLine("Alumno eliminado.");
                                     break;
                                 }
                             }
@@ -122,7 +102,6 @@ class EjemploClase
                                 Console.WriteLine("Alumno no encontrado.");
                             }
                         }
-
                         else if (opDoc == 3)
                         {
                             Console.Write("Usuario a editar: ");
@@ -130,9 +109,9 @@ class EjemploClase
 
                             bool encontrado = false;
 
-                            for (int i = 0; i < totalAlumnos; i++)
+                            for (int i = 0; i < alumnos.Count; i++)
                             {
-                                if (alumnos[i] == buscar)
+                                if (alumnos[i].ToString() == buscar)
                                 {
                                     Console.Write("Nuevo usuario: ");
                                     alumnos[i] = Console.ReadLine();
@@ -140,7 +119,6 @@ class EjemploClase
                                     Console.Write("Nueva contraseña: ");
                                     contras[i] = Console.ReadLine();
 
-                                    Console.WriteLine("Alumno actualizado.");
                                     encontrado = true;
                                     break;
                                 }
@@ -151,8 +129,6 @@ class EjemploClase
                                 Console.WriteLine("Alumno no encontrado.");
                             }
                         }
-
-               
                         else if (opDoc == 4)
                         {
                             Console.Write("Usuario: ");
@@ -160,22 +136,22 @@ class EjemploClase
 
                             bool encontrado = false;
 
-                            for (int i = 0; i < totalAlumnos; i++)
+                            for (int i = 0; i < alumnos.Count; i++)
                             {
-                                if (alumnos[i] == buscar)
+                                if (alumnos[i].ToString() == buscar)
                                 {
                                     Console.Write("Nota 1: ");
-                                    double n1 = double.Parse(Console.ReadLine());
+                                    int n1 = int.Parse(Console.ReadLine());
 
                                     Console.Write("Nota 2: ");
-                                    double n2 = double.Parse(Console.ReadLine());
+                                    int n2 = int.Parse(Console.ReadLine());
 
                                     Console.Write("Parcial: ");
-                                    double n3 = double.Parse(Console.ReadLine());
+                                    int n3 = int.Parse(Console.ReadLine());
 
-                                    promedios[i] = (n1 * 0.25) + (n2 * 0.25) + (n3 * 0.5);
+                                    double promedio = (n1 * 0.25) + (n2 * 0.25) + (n3 * 0.5);
 
-                                    Console.WriteLine("Promedio guardado.");
+                                    promedios[i] = promedio;
                                     encontrado = true;
                                     break;
                                 }
@@ -186,19 +162,15 @@ class EjemploClase
                                 Console.WriteLine("Alumno no encontrado.");
                             }
                         }
-
-                        
                         else if (opDoc == 5)
                         {
-                            Console.WriteLine("\n--- LISTA DE ALUMNOS ---");
-
-                            if (totalAlumnos == 0)
+                            if (alumnos.Count == 0)
                             {
                                 Console.WriteLine("No hay alumnos.");
                             }
                             else
                             {
-                                for (int i = 0; i < totalAlumnos; i++)
+                                for (int i = 0; i < alumnos.Count; i++)
                                 {
                                     Console.WriteLine((i + 1) + ". " + alumnos[i] + " | Promedio: " + promedios[i]);
                                 }
@@ -211,8 +183,6 @@ class EjemploClase
                     Console.WriteLine("Credenciales incorrectas.");
                 }
             }
-
-            
             else if (opcion == 2)
             {
                 Console.Write("Usuario: ");
@@ -223,9 +193,9 @@ class EjemploClase
 
                 bool acceso = false;
 
-                for (int i = 0; i < totalAlumnos; i++)
+                for (int i = 0; i < alumnos.Count; i++)
                 {
-                    if (alumnos[i] == usuarioAlu && contras[i] == passAlu)
+                    if (alumnos[i].ToString() == usuarioAlu && contras[i].ToString() == passAlu)
                     {
                         Console.WriteLine("Bienvenido " + alumnos[i]);
                         Console.WriteLine("Promedio: " + promedios[i]);
